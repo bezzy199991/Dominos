@@ -9,6 +9,10 @@ import (
 	_ "github.com/heroku/x/hmetrics/onload"
 )
 
+func showLeaderboard(c *gin.Context) {
+	c.HTML(http.StatusOK, "leader.tmpl.html", nil)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 
@@ -20,6 +24,8 @@ func main() {
 	router.Use(gin.Logger())
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
+
+	router.GET("/leaderboard", showLeaderboard)
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
